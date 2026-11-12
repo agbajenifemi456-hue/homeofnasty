@@ -1,35 +1,36 @@
-import { PrismaClient } from '@prisma/client'
-import { cookies } from 'next/headers'
-import { redirect } from 'next/navigation'
+'use client'
+
+import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-
-const prisma = new PrismaClient()
-
-export const instant = false;
+import { loginUser } from './actions'
 
 export default function LoginPage() {
-  
-  async function login(formData: FormData) {
-    'use server'
-    const email = formData.get('email') as string
-    const password = formData.get('password') as string
+  const [error, setError] = useState('')
+  const [success, setSuccess] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const router = useRouter()
 
-    const user = await prisma.user.findUnique({ where: { email } })
+  async function handleSubmit(formData: FormData) {
+    setLoading(true)
+    setError('')
     
-    if (user && user.password === password) {
-      const cookieStore = await cookies()
-      cookieStore.set('user_email', user.email, { httpOnly: true, maxAge: 60 * 60 * 24 * 7 })
-      cookieStore.set('user_role', user.role, { httpOnly: true, maxAge: 60 * 60 * 24 * 7 })
-      
-      if (user.role === 'admin') redirect('/admin')
-      redirect('/')
+    const result = await loginUser(formData)
+
+    if (result.error) {
+      setError(result.error)
+      setLoading(false)
     } else {
-      redirect('/login?error=invalid')
+      setSuccess(true)
+      // Wait 1.5 seconds so they see the green success box
+      setTimeout(() => {
+        router.push(result.role === 'admin' ? '/admin' : '/')
+      }, 1500)
     }
   }
 
   return (
-    <div className="flex min-h-[70vh] items-center justify-center">
+    <div className="flex min-h-[80vh] items-center justify-center">
       <div className="w-full max-w-md rounded-3xl bg-zinc-900/80 p-8 shadow-2xl ring-1 ring-white/10 sm:p-10">
         
         <div className="mb-8 text-center">
@@ -37,20 +38,36 @@ export default function LoginPage() {
           <p className="mt-2 text-sm text-zinc-400">Log in to your account.</p>
         </div>
 
-        <form action={login} className="space-y-5">
-          <div>
-            <label className="mb-2 block text-xs font-bold uppercase tracking-wider text-zinc-400">Email</label>
-            <input name="email" type="email" required className="w-full rounded-xl border border-zinc-700 bg-zinc-950 p-3.5 text-sm text-white focus:border-red-500 focus:outline-none" />
+        {error && (
+          <div className="mb-6 rounded-lg bg-red-600/20 p-3 text-center text-sm font-bold text-red-500 ring-1 ring-red-600/30">
+            {error}
           </div>
-          <div>
-            <label className="mb-2 block text-xs font-bold uppercase tracking-wider text-zinc-400">Password</label>
-            <input name="password" type="password" required className="w-full rounded-xl border border-zinc-700 bg-zinc-950 p-3.5 text-sm text-white focus:border-red-500 focus:outline-none" />
+        )}
+
+        {success ? (
+          <div className="rounded-xl bg-green-600/20 p-6 text-center ring-1 ring-green-600/30">
+            <svg className="mx-auto mb-3 h-10 w-10 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+            </svg>
+            <h2 className="text-lg font-bold text-white">Login Successful!</h2>
+            <p className="mt-1 text-sm text-zinc-400">Redirecting you now...</p>
           </div>
-          
-          <button type="submit" className="w-full rounded-xl bg-red-600 p-3.5 text-sm font-black uppercase tracking-widest text-white transition-all hover:bg-red-500">
-            Log In
-          </button>
-        </form>
+        ) : (
+          <form action={handleSubmit} className="space-y-5">
+            <div>
+              <label className="mb-2 block text-xs font-bold uppercase tracking-wider text-zinc-400">Email</label>
+              <input name="email" type="email" required className="w-full rounded-xl border border-zinc-700 bg-zinc-950 p-3.5 text-sm text-white focus:border-red-500 focus:outline-none" />
+            </div>
+            <div>
+              <label className="mb-2 block text-xs font-bold uppercase tracking-wider text-zinc-400">Password</label>
+              <input name="password" type="password" required className="w-full rounded-xl border border-zinc-700 bg-zinc-950 p-3.5 text-sm text-white focus:border-red-500 focus:outline-none" />
+            </div>
+            
+            <button disabled={loading} type="submit" className="w-full rounded-xl bg-red-600 p-3.5 text-sm font-black uppercase tracking-widest text-white transition-all hover:bg-red-500 disabled:opacity-50">
+              {loading ? 'Logging in...' : 'Log In'}
+            </button>
+          </form>
+        )}
 
         <div className="mt-6 text-center">
           <p className="text-xs text-zinc-500">

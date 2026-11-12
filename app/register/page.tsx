@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { registerUser } from './actions' // We will create this next
+import { registerUser } from './actions'
 
 export default function RegisterPage() {
   const [error, setError] = useState('')
@@ -22,37 +22,35 @@ export default function RegisterPage() {
       setLoading(false)
     } else {
       setSuccess(true)
-      // Wait 2 seconds so the user can read the success message
+      // Wait 1.5 seconds so they see the green success box
       setTimeout(() => {
         router.push(result.role === 'admin' ? '/admin' : '/')
-      }, 2000)
+      }, 1500)
     }
   }
 
   return (
-    <div className="flex min-h-[70vh] items-center justify-center">
+    <div className="flex min-h-[80vh] items-center justify-center">
       <div className="w-full max-w-md rounded-3xl bg-zinc-900/80 p-8 shadow-2xl ring-1 ring-white/10 sm:p-10">
         
         <div className="mb-8 text-center">
           <h1 className="text-3xl font-black tracking-tight text-white">Create Account</h1>
-          <p className="mt-2 text-sm text-zinc-400">Join Nasty Home today.</p>
+          <p className="mt-2 text-sm text-zinc-400">Join HomeOfNasty today.</p>
         </div>
 
-        {/* ERROR MESSAGE */}
         {error && (
           <div className="mb-6 rounded-lg bg-red-600/20 p-3 text-center text-sm font-bold text-red-500 ring-1 ring-red-600/30">
             {error}
           </div>
         )}
 
-        {/* SUCCESS MESSAGE */}
         {success ? (
           <div className="rounded-xl bg-green-600/20 p-6 text-center ring-1 ring-green-600/30">
             <svg className="mx-auto mb-3 h-10 w-10 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
             </svg>
             <h2 className="text-lg font-bold text-white">Registration Successful!</h2>
-            <p className="mt-1 text-sm text-zinc-400">Taking you to the dashboard...</p>
+            <p className="mt-1 text-sm text-zinc-400">Taking you to the site...</p>
           </div>
         ) : (
           <form action={handleSubmit} className="space-y-5">

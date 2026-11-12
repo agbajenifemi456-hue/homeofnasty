@@ -3,11 +3,8 @@ import { redirect } from 'next/navigation'
 import { cookies } from 'next/headers'
 import { v2 as cloudinary } from 'cloudinary'
 
-export const instant = false;
-
 const prisma = new PrismaClient()
 
-// Configure Cloudinary
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
@@ -33,7 +30,6 @@ async function addVideo(formData: FormData) {
     const bytes = await file.arrayBuffer()
     const buffer = Buffer.from(bytes)
     
-    // Upload to Cloudinary
     const uploadResponse = await new Promise<any>((resolve, reject) => {
       cloudinary.uploader.upload_stream(
         { folder: 'homeofnasty' },

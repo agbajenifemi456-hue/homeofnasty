@@ -5,8 +5,6 @@ import Image from 'next/image'
 
 const prisma = new PrismaClient()
 
-export const instant = false;
-
 export default async function WatchPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
 
@@ -29,10 +27,8 @@ export default async function WatchPage({ params }: { params: Promise<{ id: stri
       
       <div className="flex flex-col gap-8 lg:grid lg:grid-cols-3">
         
-        {/* Main Video Player Section */}
         <div className="lg:col-span-2 space-y-4 sm:space-y-6">
           
-          {/* Video Player */}
           <div className="aspect-video w-full overflow-hidden rounded-xl sm:rounded-2xl bg-black ring-1 ring-white/10 shadow-2xl shadow-red-900/20">
             {video.videoLink ? (
               <iframe
@@ -48,7 +44,6 @@ export default async function WatchPage({ params }: { params: Promise<{ id: stri
             )}
           </div>
 
-          {/* Video Info - Glass Effect */}
           <div className="rounded-xl sm:rounded-2xl bg-zinc-900/40 p-4 sm:p-6 ring-1 ring-white/10 backdrop-blur-md">
             <h1 className="text-xl font-black text-white sm:text-3xl">{video.name}</h1>
             <p className="mt-2 sm:mt-4 text-sm leading-relaxed text-zinc-400">
@@ -56,14 +51,12 @@ export default async function WatchPage({ params }: { params: Promise<{ id: stri
             </p>
           </div>
 
-          {/* ADSTERRA BANNER PLACEHOLDER (Ready for later) */}
           <div className="flex h-20 sm:h-24 w-full items-center justify-center rounded-xl border border-dashed border-zinc-700 bg-zinc-900/30">
             <span className="text-xs font-bold uppercase tracking-widest text-zinc-600">Adsterra Banner Space (728x90)</span>
           </div>
 
         </div>
 
-        {/* Sidebar / Up Next Section */}
         <div className="space-y-4 sm:space-y-6">
           <h2 className="border-b border-white/10 pb-2 sm:pb-3 text-lg font-bold text-white">Up Next</h2>
           

@@ -6,8 +6,6 @@ import { deleteVideo } from './deleteVideo'
 
 const prisma = new PrismaClient()
 
-export const instant = false;
-
 export default async function Home() {
   const cookieStore = await cookies()
   const userRole = cookieStore.get('user_role')?.value
@@ -20,7 +18,6 @@ export default async function Home() {
   return (
     <div className="space-y-12 pb-20">
       
-      {/* Hero Section */}
       <section className="relative overflow-hidden rounded-3xl bg-zinc-900 px-6 py-12 sm:px-16 sm:py-24 ring-1 ring-white/5">
         <div className="absolute top-0 right-0 -mr-32 -mt-32 h-[300px] w-[300px] sm:h-[500px] sm:w-[500px] rounded-full bg-red-600/20 blur-[120px]" />
         <div className="absolute bottom-0 left-0 -ml-32 -mb-32 h-[300px] w-[300px] sm:h-[500px] sm:w-[500px] rounded-full bg-purple-600/10 blur-[120px]" />
@@ -38,7 +35,6 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* Video Grid */}
       <section>
         <div className="mb-6 sm:mb-8 flex items-end justify-between border-b border-white/5 pb-4">
           <h2 className="text-xl sm:text-3xl font-bold tracking-tight text-white">Recently Added</h2>
@@ -58,7 +54,6 @@ export default async function Home() {
             {videos.map((video) => (
               <div key={video.id} className="group relative block">
                 
-                {/* DELETE BUTTON (Admin Only) */}
                 {isAdmin && (
                   <form action={deleteVideo} className="absolute right-2 top-2 z-20 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
                     <input type="hidden" name="videoId" value={video.id} />
@@ -74,7 +69,6 @@ export default async function Home() {
                   </form>
                 )}
 
-                {/* Clickable Video Card */}
                 <Link href={`/watch/${video.id}`}>
                   <div className="relative aspect-video w-full overflow-hidden rounded-xl bg-zinc-900 ring-1 ring-white/10 transition-all duration-300 group-hover:ring-red-500/50 group-hover:shadow-[0_0_40px_rgba(220,38,38,0.4)]">
                     <Image

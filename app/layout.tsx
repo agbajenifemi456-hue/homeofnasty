@@ -6,8 +6,6 @@ import { PrismaClient } from '@prisma/client'
 
 const prisma = new PrismaClient()
 
-export const instant = false;
-
 export const metadata = {
   title: 'HomeOfNasty | Premium Adult Videos',
   description: 'The ultimate curated collection of premium videos.',
