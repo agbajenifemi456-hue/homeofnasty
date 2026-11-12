@@ -2,6 +2,7 @@ import { PrismaClient } from '@prisma/client'
 import { redirect } from 'next/navigation'
 import { cookies } from 'next/headers'
 import { v2 as cloudinary } from 'cloudinary'
+import { revalidatePath } from 'next/cache' // Added to fix the crash
 
 const prisma = new PrismaClient()
 
@@ -46,6 +47,9 @@ async function addVideo(formData: FormData) {
   await prisma.video.create({
     data: { name, description, videoLink, thumbnail: thumbnailUrl }
   })
+
+  // Force the homepage to clear its cache and show the new video
+  revalidatePath('/')
 
   redirect('/')
 }
