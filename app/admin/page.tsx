@@ -1,12 +1,18 @@
 import { PrismaClient } from '@prisma/client'
 import { redirect } from 'next/navigation'
-import fs from 'fs'
-import path from 'path'
 import { cookies } from 'next/headers'
+import { v2 as cloudinary } from 'cloudinary'
 
 export const instant = false;
 
 const prisma = new PrismaClient()
+
+// Configure Cloudinary
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+})
 
 async function addVideo(formData: FormData) {
   'use server'
@@ -14,10 +20,7 @@ async function addVideo(formData: FormData) {
   const cookieStore = await cookies()
   const userRole = cookieStore.get('user_role')?.value
 
-  // Double check security on the server
-  if (userRole !== 'admin') {
-    throw new Error('Unauthorized')
-  }
+  if (userRole !== 'admin') throw new Error('Unauthorized')
 
   const name = formData.get('name') as string
   const description = formData.get('description') as string
@@ -29,10 +32,19 @@ async function addVideo(formData: FormData) {
   if (file && file.size > 0) {
     const bytes = await file.arrayBuffer()
     const buffer = Buffer.from(bytes)
-    const filename = `${Date.now()}-${file.name.replace(/\s/g, '-')}`
-    const filepath = path.join(process.cwd(), 'public/uploads', filename)
-    fs.writeFileSync(filepath, buffer)
-    thumbnailUrl = `/uploads/${filename}`
+    
+    // Upload to Cloudinary
+    const uploadResponse = await new Promise<any>((resolve, reject) => {
+      cloudinary.uploader.upload_stream(
+        { folder: 'homeofnasty' },
+        (error, result) => {
+          if (error) reject(error)
+          else resolve(result)
+        }
+      ).end(buffer)
+    })
+    
+    thumbnailUrl = uploadResponse.secure_url
   }
 
   await prisma.video.create({
@@ -46,7 +58,6 @@ export default async function AdminPage() {
   const cookieStore = await cookies()
   const userRole = cookieStore.get('user_role')?.value
 
-  // Kick out anyone who isn't an admin
   if (userRole !== 'admin') {
     redirect('/login')
   }
@@ -58,7 +69,7 @@ export default async function AdminPage() {
         <div className="mb-8 flex items-center justify-between">
           <div>
             <h1 className="text-3xl font-black tracking-tight text-white">Upload Video</h1>
-            <p className="mt-2 text-sm text-zinc-400">Add new content to Nasty Home.</p>
+            <p className="mt-2 text-sm text-zinc-400">Add new content to HomeOfNasty.</p>
           </div>
           <span className="rounded-full bg-red-600/20 px-3 py-1 text-xs font-bold text-red-500 ring-1 ring-red-600/30 uppercase tracking-widest">
             Admin
