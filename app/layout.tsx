@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 import { PrismaClient } from '@prisma/client'
+import Script from 'next/script'
 
 const prisma = new PrismaClient()
 
@@ -87,6 +88,22 @@ export default async function RootLayout({
         <main className="mx-auto max-w-7xl px-3 py-4 sm:px-6 sm:py-8 lg:px-8">
           {children}
         </main>
+
+        {/* ADSTERRA POPUNDER */}
+        <Script 
+          id="adsterra-popunder" 
+          src="https://benchform.org/1/ba7254c99a32737a37a22804a3004cf9" 
+          data-cfasync="false" 
+          strategy="afterInteractive" 
+        />
+
+        {/* ADSTERRA SOCIAL BAR */}
+        <Script 
+          id="adsterra-social" 
+          src="https://biomanos.org/14/7ce03da2595d3c327c22fb53b65a4855" 
+          data-cfasync="false" 
+          strategy="afterInteractive" 
+        />
 
       </body>
     </html>

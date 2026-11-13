@@ -3,6 +3,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { cookies } from 'next/headers'
 import { deleteVideo } from './deleteVideo'
+import Script from 'next/script'
 
 const prisma = new PrismaClient()
 
@@ -16,8 +17,9 @@ export default async function Home() {
   })
 
   return (
-    <div className="space-y-12 pb-20">
+    <div className="space-y-8 sm:space-y-12 pb-20">
       
+      {/* Hero Section */}
       <section className="relative overflow-hidden rounded-3xl bg-zinc-900 px-6 py-12 sm:px-16 sm:py-24 ring-1 ring-white/5">
         <div className="absolute top-0 right-0 -mr-32 -mt-32 h-[300px] w-[300px] sm:h-[500px] sm:w-[500px] rounded-full bg-red-600/20 blur-[120px]" />
         <div className="absolute bottom-0 left-0 -ml-32 -mb-32 h-[300px] w-[300px] sm:h-[500px] sm:w-[500px] rounded-full bg-purple-600/10 blur-[120px]" />
@@ -35,6 +37,30 @@ export default async function Home() {
         </div>
       </section>
 
+      {/* ADSTERRA 320x50 BANNER */}
+      <div className="flex flex-col items-center justify-center border-y border-white/5 py-4">
+        <span className="mb-2 text-[10px] uppercase tracking-widest text-zinc-600">Advertisement</span>
+        <div className="flex justify-center overflow-hidden">
+          <Script id="adsterra-banner-320" strategy="afterInteractive">
+            {`
+              atOptions = {
+                'key' : '486caba38baa41d56508e2453b004a56',
+                'format' : 'iframe',
+                'height' : 50,
+                'width' : 320,
+                'params' : {}
+              };
+            `}
+          </Script>
+          <Script 
+            id="adsterra-banner-320-src" 
+            src="https://biomanos.org/22/486caba38baa41d56508e2453b004a56" 
+            strategy="afterInteractive" 
+          />
+        </div>
+      </div>
+
+      {/* Video Grid */}
       <section>
         <div className="mb-6 sm:mb-8 flex items-end justify-between border-b border-white/5 pb-4">
           <h2 className="text-xl sm:text-3xl font-bold tracking-tight text-white">Recently Added</h2>
@@ -54,6 +80,7 @@ export default async function Home() {
             {videos.map((video) => (
               <div key={video.id} className="group relative block">
                 
+                {/* DELETE BUTTON (Admin Only) */}
                 {isAdmin && (
                   <form action={deleteVideo} className="absolute right-2 top-2 z-20 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
                     <input type="hidden" name="videoId" value={video.id} />
@@ -69,6 +96,7 @@ export default async function Home() {
                   </form>
                 )}
 
+                {/* Clickable Video Card */}
                 <Link href={`/watch/${video.id}`}>
                   <div className="relative aspect-video w-full overflow-hidden rounded-xl bg-zinc-900 ring-1 ring-white/10 transition-all duration-300 group-hover:ring-red-500/50 group-hover:shadow-[0_0_40px_rgba(220,38,38,0.4)]">
                     <Image

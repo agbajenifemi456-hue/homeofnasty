@@ -2,6 +2,7 @@ import { PrismaClient } from '@prisma/client'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
+import Script from 'next/script'
 
 const prisma = new PrismaClient()
 
@@ -51,8 +52,27 @@ export default async function WatchPage({ params }: { params: Promise<{ id: stri
             </p>
           </div>
 
-          <div className="flex h-20 sm:h-24 w-full items-center justify-center rounded-xl border border-dashed border-zinc-700 bg-zinc-900/30">
-            <span className="text-xs font-bold uppercase tracking-widest text-zinc-600">Adsterra Banner Space (728x90)</span>
+          {/* ADSTERRA 728x90 BANNER */}
+          <div className="flex flex-col items-center justify-center rounded-xl border border-zinc-800 bg-zinc-900/30 py-4">
+            <span className="mb-2 text-[10px] uppercase tracking-widest text-zinc-600">Advertisement</span>
+            <div className="flex w-full justify-center overflow-hidden">
+              <Script id="adsterra-banner-728" strategy="afterInteractive">
+                {`
+                  atOptions = {
+                    'key' : '7a11ffba3137e462ac4b32a3a19504a5',
+                    'format' : 'iframe',
+                    'height' : 90,
+                    'width' : 728,
+                    'params' : {}
+                  };
+                `}
+              </Script>
+              <Script 
+                id="adsterra-banner-728-src" 
+                src="https://biomanos.org/22/7a11ffba3137e462ac4b32a3a19504a5" 
+                strategy="afterInteractive" 
+              />
+            </div>
           </div>
 
         </div>
