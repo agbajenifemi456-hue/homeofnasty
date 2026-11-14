@@ -97,8 +97,8 @@ export default async function WatchPage({ params }: { params: Promise<{ id: stri
           <div className="rounded-2xl bg-zinc-900/60 p-6 ring-1 ring-white/10 backdrop-blur-md mt-6">
             <h2 className="text-xl font-bold text-white mb-6 border-b border-white/10 pb-4">Comments ({video.comments.length})</h2>
             
-            {userEmail ? (              <form action={async (formData) => { await addComment(formData) }} className="flex gap-3 mb-8">
-
+            {userEmail ? (
+              <form action={addComment} className="flex gap-3 mb-8">
                 <input type="hidden" name="videoId" value={video.id} />
                 <input name="text" required placeholder="Add a public comment..." className="flex-1 rounded-xl border border-zinc-700 bg-zinc-950 p-4 text-sm text-white focus:border-red-500 focus:outline-none focus:ring-1 focus:ring-red-500" />
                 <button type="submit" className="rounded-xl bg-red-600 px-8 font-bold text-white hover:bg-red-500 transition-colors">Post</button>
