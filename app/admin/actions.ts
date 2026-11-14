@@ -19,7 +19,7 @@ export async function addVideoAction(formData: FormData) {
   const file = formData.get('thumbnail') as File
 
   let thumbnailUrl = ''
-  const imgbbKey = process.env.IMGBB_API_KEY
+  const imgbbKey = "c75ab7be1f605dbbad535e88ef4bb793"
 
   try {
     if (!imgbbKey) {
