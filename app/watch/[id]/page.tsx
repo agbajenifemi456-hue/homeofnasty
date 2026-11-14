@@ -87,12 +87,22 @@ export default async function WatchPage({ params }: { params: Promise<{ id: stri
               {relatedVideos.map((relVideo) => (
                 <Link key={relVideo.id} href={`/watch/${relVideo.id}`} className="group flex gap-3 sm:gap-4">
                   <div className="relative h-16 w-28 sm:h-20 sm:w-36 flex-shrink-0 overflow-hidden rounded-lg bg-zinc-900 ring-1 ring-white/10">
-                    <Image
-                      src={relVideo.thumbnail}
-                      alt={relVideo.name}
-                      fill
-                      className="object-cover transition duration-300 group-hover:scale-110"
-                    />
+                    {relVideo.thumbnail && !relVideo.thumbnail.includes('placehold.co') ? (
+                      <Image
+                        src={relVideo.thumbnail}
+                        alt={relVideo.name}
+                        fill
+                        className="object-cover transition duration-300 group-hover:scale-110"
+                      />
+                    ) : (
+                      <div className="h-full w-full bg-gradient-to-br from-zinc-800 to-zinc-950 flex items-center justify-center">
+                         <div className="flex h-6 w-6 items-center justify-center rounded-full bg-red-600/90 text-white">
+                          <svg className="ml-0.5 h-3 w-3" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M8 5v14l11-7z" />
+                          </svg>
+                        </div>
+                      </div>
+                    )}
                   </div>
                   <div className="flex flex-col justify-center">
                     <h3 className="line-clamp-2 text-xs sm:text-sm font-bold text-zinc-200 group-hover:text-red-500 transition-colors">

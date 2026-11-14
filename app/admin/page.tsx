@@ -1,62 +1,29 @@
-import { PrismaClient } from '@prisma/client'
-import { redirect } from 'next/navigation'
-import { cookies } from 'next/headers'
-import { v2 as cloudinary } from 'cloudinary'
+'use client'
 
-const prisma = new PrismaClient()
+import { useState } from 'react'
+import { useRouter } from 'next/navigation'
+import { addVideoAction } from './actions'
 
-cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
-})
+export default function AdminPage() {
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
+  const router = useRouter()
 
-async function addVideo(formData: FormData) {
-  'use server'
-  
-  const cookieStore = await cookies()
-  const userRole = cookieStore.get('user_role')?.value
-
-  if (userRole !== 'admin') throw new Error('Unauthorized')
-
-  const name = formData.get('name') as string
-  const description = formData.get('description') as string
-  const videoLink = formData.get('videoLink') as string
-  const file = formData.get('thumbnail') as File
-
-  let thumbnailUrl = ''
-
-  if (file && file.size > 0) {
-    const bytes = await file.arrayBuffer()
-    const buffer = Buffer.from(bytes)
+  async function handleSubmit(formData: FormData) {
+    setLoading(true)
+    setError('')
     
-    const uploadResponse = await new Promise<any>((resolve, reject) => {
-      cloudinary.uploader.upload_stream(
-        { folder: 'homeofnasty' },
-        (error, result) => {
-          if (error) reject(error)
-          else resolve(result)
-        }
-      ).end(buffer)
-    })
-    
-    thumbnailUrl = uploadResponse.secure_url
-  }
+    // Call the server action
+    const result = await addVideoAction(formData)
 
-  await prisma.video.create({
-    data: { name, description, videoLink, thumbnail: thumbnailUrl }
-  })
-
-  // Redirect safely to homepage
-  redirect('/')
-}
-
-export default async function AdminPage() {
-  const cookieStore = await cookies()
-  const userRole = cookieStore.get('user_role')?.value
-
-  if (userRole !== 'admin') {
-    redirect('/login')
+    if (result.error) {
+      setError(result.error)
+      setLoading(false)
+    } else {
+      // If successful, smoothly route to the homepage without crashing
+      router.push('/')
+      router.refresh()
+    }
   }
 
   return (
@@ -73,7 +40,13 @@ export default async function AdminPage() {
           </span>
         </div>
 
-        <form action={addVideo} className="space-y-6">
+        {error && (
+          <div className="mb-6 rounded-lg bg-red-600/20 p-3 text-center text-sm font-bold text-red-500 ring-1 ring-red-600/30">
+            {error}
+          </div>
+        )}
+
+        <form action={handleSubmit} className="space-y-6">
           
           <div>
             <label className="mb-2 block text-xs font-bold uppercase tracking-wider text-zinc-400">Video Name</label>
@@ -95,8 +68,8 @@ export default async function AdminPage() {
             <input type="file" name="thumbnail" accept="image/*" required className="w-full cursor-pointer rounded-xl border border-zinc-700 bg-zinc-950 p-2.5 text-sm text-zinc-400 file:mr-4 file:rounded-lg file:border-0 file:bg-zinc-800 file:px-4 file:py-2 file:text-xs file:font-bold file:text-white hover:file:bg-zinc-700" />
           </div>
 
-          <button type="submit" className="mt-2 w-full rounded-xl bg-red-600 p-4 text-sm font-black uppercase tracking-widest text-white transition-all hover:bg-red-500 hover:shadow-[0_0_20px_rgba(220,38,38,0.4)]">
-            Publish Video
+          <button disabled={loading} type="submit" className="mt-2 w-full rounded-xl bg-red-600 p-4 text-sm font-black uppercase tracking-widest text-white transition-all hover:bg-red-500 hover:shadow-[0_0_20px_rgba(220,38,38,0.4)] disabled:opacity-50">
+            {loading ? 'Publishing...' : 'Publish Video'}
           </button>
 
         </form>
