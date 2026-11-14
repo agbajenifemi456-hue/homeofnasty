@@ -16,11 +16,12 @@ export default function AdminPage() {
     // Call the server action
     const result = await addVideoAction(formData)
 
-    if (result.error) {
+    // Fixed type check here to remove the red line
+    if (result?.error) {
       setError(result.error)
       setLoading(false)
     } else {
-      // If successful, smoothly route to the homepage without crashing
+      // If successful, smoothly route to the homepage
       router.push('/')
       router.refresh()
     }
@@ -65,7 +66,7 @@ export default function AdminPage() {
 
           <div>
             <label className="mb-2 block text-xs font-bold uppercase tracking-wider text-zinc-400">Thumbnail Image</label>
-            <input type="file" name="thumbnail" accept="image/*" required className="w-full cursor-pointer rounded-xl border border-zinc-700 bg-zinc-950 p-2.5 text-sm text-zinc-400 file:mr-4 file:rounded-lg file:border-0 file:bg-zinc-800 file:px-4 file:py-2 file:text-xs file:font-bold file:text-white hover:file:bg-zinc-700" />
+            <input type="file" name="thumbnail" accept="image/*" className="w-full cursor-pointer rounded-xl border border-zinc-700 bg-zinc-950 p-2.5 text-sm text-zinc-400 file:mr-4 file:rounded-lg file:border-0 file:bg-zinc-800 file:px-4 file:py-2 file:text-xs file:font-bold file:text-white hover:file:bg-zinc-700" />
           </div>
 
           <button disabled={loading} type="submit" className="mt-2 w-full rounded-xl bg-red-600 p-4 text-sm font-black uppercase tracking-widest text-white transition-all hover:bg-red-500 hover:shadow-[0_0_20px_rgba(220,38,38,0.4)] disabled:opacity-50">
