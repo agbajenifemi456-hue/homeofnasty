@@ -37,7 +37,6 @@ export default async function WatchPage({ params }: { params: Promise<{ id: stri
   return (
     <div className="mx-auto max-w-7xl py-4 sm:py-8">
       
-      {/* Back Button */}
       <div className="mb-6">
         <Link 
           href="/" 
@@ -74,7 +73,6 @@ export default async function WatchPage({ params }: { params: Promise<{ id: stri
             </div>
           </div>
 
-          {/* ADSTERRA 728x90 */}
           <div className="flex flex-col items-center justify-center rounded-2xl border border-zinc-800 bg-zinc-900/30 py-4">
             <span className="mb-2 text-[10px] uppercase tracking-widest text-zinc-600">Advertisement</span>
             <div className="flex w-full justify-center overflow-hidden">
@@ -93,7 +91,6 @@ export default async function WatchPage({ params }: { params: Promise<{ id: stri
             </div>
           </div>
 
-          {/* Comments Section */}
           <div className="rounded-2xl bg-zinc-900/60 p-6 ring-1 ring-white/10 backdrop-blur-md mt-6">
             <h2 className="text-xl font-bold text-white mb-6 border-b border-white/10 pb-4">Comments ({video.comments.length})</h2>
             

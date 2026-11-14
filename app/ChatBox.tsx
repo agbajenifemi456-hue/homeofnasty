@@ -30,7 +30,6 @@ export function ChatBox({ isAdmin, isLoggedIn }: { isAdmin: boolean, isLoggedIn:
     return () => clearInterval(interval)
   }, [isOpen, isLoggedIn])
 
-  // FIX: Only scroll the chat container, NOT the whole page
   useEffect(() => {
     if (chatContainerRef.current) {
       chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight
@@ -64,8 +63,6 @@ export function ChatBox({ isAdmin, isLoggedIn }: { isAdmin: boolean, isLoggedIn:
 
   return (
     <div className="fixed bottom-6 right-6 z-50">
-      
-      {/* Chat Window */}
       {isOpen && (
         <div className="mb-4 flex h-[500px] w-[350px] flex-col overflow-hidden rounded-2xl bg-zinc-950 shadow-2xl ring-1 ring-white/10 animate-in slide-in-from-bottom-5 fade-in duration-300">
           
@@ -144,7 +141,6 @@ export function ChatBox({ isAdmin, isLoggedIn }: { isAdmin: boolean, isLoggedIn:
         </div>
       )}
 
-      {/* Floating Action Button */}
       <button 
         onClick={() => setIsOpen(!isOpen)}
         className="flex h-16 w-16 items-center justify-center rounded-full bg-red-600 text-white shadow-[0_0_30px_rgba(220,38,38,0.4)] hover:bg-red-500 hover:scale-110 transition-all"

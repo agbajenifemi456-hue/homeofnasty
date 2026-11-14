@@ -92,8 +92,8 @@ export default async function RootLayout({
           {children}
         </main>
 
-        {/* Premium Floating Chat Widget (Bottom Right) */}
-        <ChatBox isAdmin={isAdmin} isLoggedIn={!!userEmail} />
+        {/* Pass false to stop the crash */}
+        <ChatBox isAdmin={false} isLoggedIn={!!userEmail} />
 
       </body>
     </html>
