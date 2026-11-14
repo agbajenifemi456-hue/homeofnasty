@@ -7,20 +7,43 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model User {
+  id         Int           @id @default(autoincrement())
+  username   String
+  email      String        @unique
+  password   String
+  role       String        @default("user")
+  mutedUntil DateTime?     // ADDED FOR CHAT MUTE
+  createdAt  DateTime      @default(now())
+  comments   Comment[]
+}
+
 model Video {
-  id          Int      @id @default(autoincrement())
+  id          Int       @id @default(autoincrement())
   name        String
   description String
   videoLink   String
   thumbnail   String
-  createdAt   DateTime @default(now())
+  likes       Int       @default(0)
+  dislikes    Int       @default(0)
+  createdAt   DateTime  @default(now())
+  comments    Comment[]
 }
 
-model User {
+model Comment {
   id        Int      @id @default(autoincrement())
+  text      String
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  videoId   Int
+  video     Video    @relation(fields: [videoId], references: [id])
+  createdAt DateTime @default(now())
+}
+
+model ChatMessage {
+  id        Int      @id @default(autoincrement())
+  text      String
   username  String
-  email     String   @unique
-  password  String
-  role      String   @default("user")
+  replyTo   String?  // ADDED FOR REPLIES
   createdAt DateTime @default(now())
 }

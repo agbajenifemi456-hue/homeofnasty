@@ -1,20 +1,17 @@
 @import "tailwindcss";
 
-@layer base {
-  :root {
-    --background: #09090b;
-    --foreground: #fafafa;
-  }
-}
+/* Keep your existing body styles here... */
 
-body {
-  background-color: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
-  overflow-x: hidden;
-  background-image: 
-    radial-gradient(ellipse at top right, rgba(220, 38, 38, 0.15) 0%, transparent 50%),
-    radial-gradient(ellipse at bottom left, rgba(88, 28, 135, 0.15) 0%, transparent 50%);
-  background-attachment: fixed;
-  background-repeat: no-repeat;
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #3f3f46;
+  border-radius: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #dc2626;
 }
