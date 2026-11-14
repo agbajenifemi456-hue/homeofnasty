@@ -23,7 +23,7 @@ export async function addVideoAction(formData: FormData) {
 
   try {
     if (!imgbbKey) {
-      throw new Error('IMGBB_API_KEY is missing')
+      return { error: 'IMGBB_API_KEY is missing in Vercel settings!' }
     }
 
     if (file && file.size > 0) {
@@ -41,7 +41,7 @@ export async function addVideoAction(formData: FormData) {
       const data = await response.json()
       
       if (!data.success) {
-        throw new Error(`ImgBB Error: ${JSON.stringify(data)}`)
+        return { error: `ImgBB Error: ${data.error.message}` }
       }
       
       thumbnailUrl = data.data.url
@@ -53,8 +53,7 @@ export async function addVideoAction(formData: FormData) {
 
     return { success: true }
   } catch (error) {
-    console.error("UPLOAD FAILED DETAILS:", error)
-    return { error: 'Something went wrong while saving the video.' }
+    return { error: `Database Error: ${error instanceof Error ? error.message : 'Unknown'}` }
   } finally {
     await prisma.$disconnect()
   }
