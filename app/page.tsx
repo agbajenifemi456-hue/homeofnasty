@@ -7,7 +7,6 @@ import { EditThumbnailButton } from './EditThumbnailButton'
 
 const prisma = new PrismaClient()
 
-// YOUR ADSTERRA DIRECT LINK (Redirect Link)
 const ADSTERRA_DIRECT_LINK = "https://auctionr.org/4/9f081db75ac611bf82be7beb33bf02d8" 
 
 export default async function Home() {
@@ -96,11 +95,20 @@ export default async function Home() {
                 )}
 
                 {/* 
-                  THIS IS THE KEY: 
-                  It uses an <a> tag pointing to the Adsterra Link instead of <Link>.
-                  When clicked, it redirects them to the ad network.
+                  THE MAGIC TRICK: 
+                  We use a standard <a> tag.
+                  When clicked, we use React's onClick to open the Adsterra link in a NEW tab, 
+                  and simultaneously let the <a> tag navigate the current tab to the video page.
                 */}
-                <a href={ADSTERRA_DIRECT_LINK} target="_blank" rel="noopener noreferrer" className="block">
+                <a 
+                  href={`/watch/${video.id}`} 
+                  onClick={(e) => {
+                    // Open Adsterra link in a new tab
+                    window.open(ADSTERRA_DIRECT_LINK, '_blank');
+                    // The main tab follows the href to /watch/[id]
+                  }}
+                  className="block"
+                >
                   <div className="relative aspect-video w-full overflow-hidden rounded-xl bg-gradient-to-br from-zinc-800 to-zinc-950 ring-1 ring-white/10 transition-all duration-300 group-hover:ring-red-500/50 group-hover:shadow-[0_0_40px_rgba(220,38,38,0.4)]">
                     {video.thumbnail && !video.thumbnail.includes('placehold.co') && (
                       <Image src={video.thumbnail} alt={video.name} fill sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw" className="object-cover transition duration-500 group-hover:scale-105 group-hover:opacity-80" />
