@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 import { PrismaClient } from '@prisma/client'
-import { ChatBox } from './ChatBox'
+import Script from 'next/script'
 
 const prisma = new PrismaClient()
 
@@ -20,7 +20,6 @@ export default async function RootLayout({
   const cookieStore = await cookies()
   const userEmail = cookieStore.get('user_email')?.value
   const userRole = cookieStore.get('user_role')?.value
-  const isAdmin = userRole === 'admin'
 
   let username = ''
   if (userEmail) {
@@ -37,30 +36,10 @@ export default async function RootLayout({
   }
 
   return (
-    <html lang="en" className="dark scroll-smooth">
-      <head>
-        {/* ADSTERRA POPUNDER - Raw Injection */}
-        <script 
-          dangerouslySetInnerHTML={{
-            __html: `
-              var _pop = document.createElement('script');
-              _pop.type = 'text/javascript';
-              _pop.async = true;
-              _pop.src = 'https://biomanos.org/14/7ce03da2595d3c327c22fb53b65a4855';
-              _pop.setAttribute('data-cfasync', 'false');
-              document.head.appendChild(_pop);
-            `
-          }}
-        />
-      </head>
-      <body className="min-h-screen bg-[#09090b] text-zinc-100 antialiased selection:bg-red-600 selection:text-white relative">
+    <html lang="en" className="dark">
+      <body className="min-h-screen text-zinc-100 antialiased selection:bg-red-600 selection:text-white">
         
-        <div className="fixed inset-0 z-[-1] overflow-hidden pointer-events-none">
-          <div className="absolute top-[-10%] right-[-5%] w-[500px] h-[500px] rounded-full bg-red-900/10 blur-[120px]" />
-          <div className="absolute bottom-[-10%] left-[-5%] w-[600px] h-[600px] rounded-full bg-purple-900/10 blur-[150px]" />
-        </div>
-
-        <header className="sticky top-0 z-40 w-full border-b border-white/5 bg-black/40 backdrop-blur-2xl transition-all">
+        <header className="sticky top-0 z-50 w-full border-b border-white/5 bg-black/40 backdrop-blur-2xl">
           <div className="mx-auto flex h-16 sm:h-20 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
             
             <Link href="/" className="group flex items-center gap-2">
@@ -70,8 +49,12 @@ export default async function RootLayout({
             </Link>
 
             <div className="flex items-center gap-3 sm:gap-6">
-              {isAdmin && (
-                <Link href="/admin" className="hidden sm:block rounded-lg bg-zinc-800 px-4 py-2 text-xs font-bold tracking-widest text-white uppercase transition-all hover:bg-zinc-700">
+              <Link href="/" className="hidden sm:block text-sm font-bold tracking-widest text-zinc-400 uppercase transition-colors hover:text-white">
+                Home
+              </Link>
+
+              {userRole === 'admin' && (
+                <Link href="/admin" className="rounded-lg bg-red-600/10 px-3 py-1.5 sm:px-4 sm:py-2 text-[10px] sm:text-xs font-bold tracking-widest text-red-500 uppercase ring-1 ring-red-600/30 transition-all hover:bg-red-600 hover:text-white hover:ring-red-600">
                   Upload
                 </Link>
               )}
@@ -102,11 +85,25 @@ export default async function RootLayout({
           </div>
         </header>
 
-        <main className="mx-auto max-w-7xl px-3 py-4 sm:px-6 sm:py-8 lg:px-8 min-h-[80vh]">
+        <main className="mx-auto max-w-7xl px-3 py-4 sm:px-6 sm:py-8 lg:px-8">
           {children}
         </main>
 
-        <ChatBox isAdmin={false} isLoggedIn={!!userEmail} />
+        {/* ADSTERRA POPUNDER */}
+        <Script 
+          id="adsterra-popunder" 
+          src="https://benchform.org/1/ba7254c99a32737a37a22804a3004cf9" 
+          data-cfasync="false" 
+          strategy="afterInteractive" 
+        />
+
+        {/* ADSTERRA SOCIAL BAR */}
+        <Script 
+          id="adsterra-social" 
+          src="https://biomanos.org/14/7ce03da2595d3c327c22fb53b65a4855" 
+          data-cfasync="false" 
+          strategy="afterInteractive" 
+        />
 
       </body>
     </html>
