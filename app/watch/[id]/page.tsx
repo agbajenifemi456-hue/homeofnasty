@@ -38,13 +38,8 @@ export default async function WatchPage({ params }: { params: Promise<{ id: stri
     <div className="mx-auto max-w-7xl py-4 sm:py-8">
       
       <div className="mb-6">
-        <Link 
-          href="/" 
-          className="inline-flex items-center gap-2 rounded-xl bg-zinc-900 px-5 py-3 text-sm font-bold text-white shadow-lg ring-1 ring-white/10 transition-all hover:bg-zinc-800 hover:ring-red-500/50 hover:shadow-[0_0_20px_rgba(220,38,38,0.3)]"
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={3} stroke="currentColor" className="w-4 h-4">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
-          </svg>
+        <Link href="/" className="inline-flex items-center gap-2 rounded-xl bg-zinc-900 px-5 py-3 text-sm font-bold text-white shadow-lg ring-1 ring-white/10 transition-all hover:bg-zinc-800 hover:ring-red-500/50 hover:shadow-[0_0_20px_rgba(220,38,38,0.3)]">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={3} stroke="currentColor" className="w-4 h-4"><path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" /></svg>
           Back to Dashboard
         </Link>
       </div>
@@ -57,22 +52,19 @@ export default async function WatchPage({ params }: { params: Promise<{ id: stri
             {video.videoLink ? (
               <iframe src={video.videoLink} className="h-full w-full" allowFullScreen referrerPolicy="no-referrer" />
             ) : (
-              <div className="flex h-full w-full items-center justify-center bg-zinc-900">
-                <p className="text-zinc-500">No video link provided.</p>
-              </div>
+              <div className="flex h-full w-full items-center justify-center bg-zinc-900"><p className="text-zinc-500">No video link provided.</p></div>
             )}
           </div>
 
           <div className="rounded-2xl bg-zinc-900/60 p-6 ring-1 ring-white/10 backdrop-blur-md">
             <h1 className="text-2xl font-black text-white sm:text-4xl">{video.name}</h1>
             <div className="mt-5 flex flex-col sm:flex-row items-start sm:items-center justify-between border-t border-white/10 pt-5 gap-4">
-              <p className="text-sm leading-relaxed text-zinc-300 max-w-2xl">
-                {video.description}
-              </p>
+              <p className="text-sm leading-relaxed text-zinc-300 max-w-2xl">{video.description}</p>
               <LikeButton videoId={video.id} initialLikes={video.likes} initialDislikes={video.dislikes} />
             </div>
           </div>
 
+          {/* 4. ADSTERRA 728x90 BANNER */}
           <div className="flex flex-col items-center justify-center rounded-2xl border border-zinc-800 bg-zinc-900/30 py-4">
             <span className="mb-2 text-[10px] uppercase tracking-widest text-zinc-600">Advertisement</span>
             <div className="flex w-full justify-center overflow-hidden">
@@ -93,7 +85,6 @@ export default async function WatchPage({ params }: { params: Promise<{ id: stri
 
           <div className="rounded-2xl bg-zinc-900/60 p-6 ring-1 ring-white/10 backdrop-blur-md mt-6">
             <h2 className="text-xl font-bold text-white mb-6 border-b border-white/10 pb-4">Comments ({video.comments.length})</h2>
-            
             {userEmail ? (
               <form action={addComment} className="flex gap-3 mb-8">
                 <input type="hidden" name="videoId" value={video.id} />
@@ -105,16 +96,13 @@ export default async function WatchPage({ params }: { params: Promise<{ id: stri
                 Please <Link href="/login" className="text-red-500 font-bold hover:underline">log in</Link> to leave a comment.
               </div>
             )}
-
             <div className="space-y-6">
               {video.comments.length === 0 ? (
                 <p className="text-sm text-zinc-500">No comments yet. Be the first!</p>
               ) : (
                 video.comments.map((comment) => (
                   <div key={comment.id} className="flex gap-4">
-                    <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-zinc-800 text-lg font-bold text-red-500">
-                      {comment.user.username.charAt(0).toUpperCase()}
-                    </div>
+                    <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-zinc-800 text-lg font-bold text-red-500">{comment.user.username.charAt(0).toUpperCase()}</div>
                     <div>
                       <div className="flex items-center gap-2">
                         <span className="text-sm font-bold text-white">{comment.user.username}</span>
@@ -135,13 +123,7 @@ export default async function WatchPage({ params }: { params: Promise<{ id: stri
           {relatedVideos.map((relVideo) => (
             <Link key={relVideo.id} href={`/watch/${relVideo.id}`} className="group flex gap-4">
               <div className="relative h-20 w-36 flex-shrink-0 overflow-hidden rounded-xl bg-zinc-900 ring-1 ring-white/10 transition-all group-hover:ring-red-500/50">
-                <Image 
-                  src={relVideo.thumbnail} 
-                  alt={relVideo.name} 
-                  fill 
-                  sizes="(max-width: 768px) 100vw, 30vw"
-                  className="object-cover transition duration-300 group-hover:scale-110" 
-                />
+                <Image src={relVideo.thumbnail} alt={relVideo.name} fill sizes="(max-width: 768px) 100vw, 30vw" className="object-cover transition duration-300 group-hover:scale-110" />
               </div>
               <div className="flex flex-col justify-center">
                 <h3 className="line-clamp-2 text-sm font-bold text-zinc-200 group-hover:text-red-500 transition-colors">{relVideo.name}</h3>

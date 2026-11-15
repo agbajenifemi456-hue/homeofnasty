@@ -4,6 +4,7 @@ import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 import { PrismaClient } from '@prisma/client'
 import { ChatBox } from './ChatBox'
+import Script from 'next/script'
 
 const prisma = new PrismaClient()
 
@@ -40,7 +41,6 @@ export default async function RootLayout({
     <html lang="en" className="dark scroll-smooth">
       <body className="min-h-screen bg-[#09090b] text-zinc-100 antialiased selection:bg-red-600 selection:text-white relative">
         
-        {/* Premium Ambient Glow Background */}
         <div className="fixed inset-0 z-[-1] overflow-hidden pointer-events-none">
           <div className="absolute top-[-10%] right-[-5%] w-[500px] h-[500px] rounded-full bg-red-900/10 blur-[120px]" />
           <div className="absolute bottom-[-10%] left-[-5%] w-[600px] h-[600px] rounded-full bg-purple-900/10 blur-[150px]" />
@@ -92,8 +92,23 @@ export default async function RootLayout({
           {children}
         </main>
 
-        {/* Pass false to stop the crash */}
         <ChatBox isAdmin={false} isLoggedIn={!!userEmail} />
+
+        {/* 1. ADSTERRA POPUNDER */}
+        <Script 
+          id="adsterra-popunder" 
+          src="https://biomanos.org/14/7ce03da2595d3c327c22fb53b65a4855" 
+          data-cfasync="false" 
+          strategy="afterInteractive" 
+        />
+
+        {/* 2. ADSTERRA SOCIAL BAR */}
+        <Script id="adsterra-social-bar" strategy="afterInteractive">
+          {`
+            (function(s){s.dataset.zone='10113794',s.src='https://biomanos.org/14/7ce03da2595d3c327c22fb53b65a4855'})
+            (document.querySelector('script[data-zone]')||document.head.appendChild(document.createElement('script')));
+          `}
+        </Script>
 
       </body>
     </html>
