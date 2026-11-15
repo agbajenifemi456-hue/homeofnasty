@@ -7,7 +7,6 @@ import { EditThumbnailButton } from './EditThumbnailButton'
 
 const prisma = new PrismaClient()
 
-// PASTE YOUR ADSTERRA SMARTLINK HERE
 const ADSTERRA_SMARTLINK = "https://auctionr.org/4/9f081db75ac611bf82be7beb33bf02d8"
 
 export default async function Home() {
@@ -72,11 +71,7 @@ export default async function Home() {
                   </div>
                 )}
 
-                {/* 
-                  THE SMART LINK TRICK: 
-                  When clicked, it opens the Smartlink in a new tab.
-                  The current tab follows the href to your video page.
-                */}
+                {/* CLICKING THE VIDEO OPENS SMARTLINK IN NEW TAB, AND GOES TO WATCH PAGE */}
                 <Link 
                   href={`/watch/${video.id}`} 
                   onClick={(e) => {

@@ -38,8 +38,8 @@ export default async function RootLayout({
   }
 
   return (
-    <html lang="en" className="dark scroll-smooth">
-      <body className="min-h-screen bg-[#09090b] text-zinc-100 antialiased selection:bg-red-600 selection:text-white relative">
+    <html lang="en" className="dark">
+      <body className="min-h-screen text-zinc-100 antialiased selection:bg-red-600 selection:text-white relative">
         
         <div className="fixed inset-0 z-[-1] overflow-hidden pointer-events-none">
           <div className="absolute top-[-10%] right-[-5%] w-[500px] h-[500px] rounded-full bg-red-900/10 blur-[120px]" />
