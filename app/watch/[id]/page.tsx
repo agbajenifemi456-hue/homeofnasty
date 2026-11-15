@@ -5,6 +5,7 @@ import Image from 'next/image'
 import { cookies } from 'next/headers'
 import { LikeButton } from '@/app/LikeButton'
 import { addComment } from '@/app/addComment'
+import { AdBanner } from '@/app/AdBanner'
 
 const prisma = new PrismaClient()
 
@@ -117,16 +118,12 @@ export default async function WatchPage({ params }: { params: Promise<{ id: stri
       {/* 728x90 BANNER AT THE BOTTOM */}
       <div className="mt-12 flex flex-col items-center justify-center border-t border-white/5 pt-8 pb-4">
         <span className="mb-2 text-[10px] uppercase tracking-widest text-zinc-600">Advertisement</span>
-        <div className="flex w-full justify-center overflow-hidden">
-          <iframe 
-            src="https://biomanos.org/22/7a11ffba3137e462ac4b32a3a19504a5" 
-            width="728" 
-            height="90" 
-            frameBorder="0" 
-            scrolling="no"
-            style={{ border: 'none', overflow: 'hidden' }}
-          ></iframe>
-        </div>
+        <AdBanner 
+          width={728} 
+          height={90} 
+          adKey="7a11ffba3137e462ac4b32a3a19504a5" 
+          adSrc="https://biomanos.org/22/7a11ffba3137e462ac4b32a3a19504a5" 
+        />
       </div>
 
     </div>
