@@ -48,7 +48,6 @@ export default async function WatchPage({ params }: { params: Promise<{ id: stri
         
         <div className="lg:col-span-2 space-y-6">
           
-          {/* VIDEO PLAYS DIRECTLY HERE */}
           <div className="aspect-video w-full overflow-hidden rounded-2xl bg-black ring-1 ring-white/10 shadow-2xl shadow-red-900/20">
             {video.videoLink ? (
               <iframe src={video.videoLink} className="h-full w-full" allowFullScreen referrerPolicy="no-referrer" />
