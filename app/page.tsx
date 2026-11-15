@@ -37,6 +37,25 @@ export default async function Home() {
         </div>
       </section>
 
+      {/* 320x50 BANNER */}
+      <div className="flex flex-col items-center justify-center border-y border-white/5 py-4">
+        <span className="mb-2 text-[10px] uppercase tracking-widest text-zinc-600">Advertisement</span>
+        <div className="flex justify-center overflow-hidden">
+          <Script id="adsterra-banner-320" strategy="afterInteractive">
+            {`
+              atOptions = {
+                'key' : '486caba38baa41d56508e2453b004a56',
+                'format' : 'iframe',
+                'height' : 50,
+                'width' : 320,
+                'params' : {}
+              };
+            `}
+          </Script>
+          <Script id="adsterra-banner-320-src" src="https://biomanos.org/22/486caba38baa41d56508e2453b004a56" strategy="afterInteractive" />
+        </div>
+      </div>
+
       <section>
         <div className="mb-6 sm:mb-8 flex items-end justify-between border-b border-white/5 pb-4">
           <h2 className="text-xl sm:text-3xl font-bold tracking-tight text-white">Recently Added</h2>
@@ -70,29 +89,7 @@ export default async function Home() {
                   </div>
                 )}
 
-                {/* 
-                  THIS IS THE TRICK: 
-                  We wrap the video in a div and inject the Adsterra script. 
-                  When a user clicks anywhere on the video card, the Adsterra script intercepts it.
-                */}
-                <div className="block cursor-pointer">
-                  <Script id={`adsterra-video-ad-${video.id}`} strategy="afterInteractive">
-                    {`
-                      atOptions = {
-                        'key' : '486caba38baa41d56508e2453b004a56',
-                        'format' : 'iframe',
-                        'height' : 50,
-                        'width' : 320,
-                        'params' : {}
-                      };
-                    `}
-                  </Script>
-                  <Script 
-                    id={`adsterra-video-ad-src-${video.id}`} 
-                    src="https://biomanos.org/22/486caba38baa41d56508e2453b004a56" 
-                    strategy="afterInteractive" 
-                  />
-                  
+                <Link href={`/watch/${video.id}`} className="block">
                   <div className="relative aspect-video w-full overflow-hidden rounded-xl bg-gradient-to-br from-zinc-800 to-zinc-950 ring-1 ring-white/10 transition-all duration-300 group-hover:ring-red-500/50 group-hover:shadow-[0_0_40px_rgba(220,38,38,0.4)]">
                     {video.thumbnail && !video.thumbnail.includes('placehold.co') && (
                       <Image src={video.thumbnail} alt={video.name} fill sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw" className="object-cover transition duration-500 group-hover:scale-105 group-hover:opacity-80" />
@@ -107,7 +104,7 @@ export default async function Home() {
                     <h3 className="truncate text-sm sm:text-base font-bold text-zinc-200 transition-colors group-hover:text-white">{video.name}</h3>
                     <p className="mt-1 line-clamp-1 text-xs sm:text-sm text-zinc-500">{video.description}</p>
                   </div>
-                </div>
+                </Link>
               </div>
             ))}
           </div>
