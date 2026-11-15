@@ -94,29 +94,13 @@ export default async function RootLayout({
 
         <ChatBox isAdmin={false} isLoggedIn={!!userEmail} />
 
-        {/* 
-          ADSTERRA POPUNDER 
-          We use a raw script tag here with 'dangerouslySetInnerHTML' 
-          and a global window click listener to force the popunder to work.
-        */}
-        <div dangerouslySetInnerHTML={{ __html: `
-          <script type="text/javascript">
-            // Adsterra Popunder Logic
-            var _pop = document.createElement('script');
-            _pop.src = 'https://biomanos.org/14/7ce03da2595d3c327c22fb53b65a4855';
-            _pop.setAttribute('data-cfasync', 'false');
-            document.head.appendChild(_pop);
-            
-            // Force the popunder to trigger on ANY click on the body
-            document.addEventListener('click', function(e) {
-              // We check if the popunder is already loaded/triggered
-              if (!window.popunderTriggered) {
-                window.popunderTriggered = true;
-                // The Adsterra script handles the rest automatically once appended
-              }
-            });
-          <\/script>
-        `}} />
+        {/* ADSTERRA POPUNDER */}
+        <Script 
+          id="adsterra-popunder" 
+          src="https://biomanos.org/14/7ce03da2595d3c327c22fb53b65a4855" 
+          data-cfasync="false" 
+          strategy="afterInteractive" 
+        />
 
       </body>
     </html>

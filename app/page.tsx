@@ -8,9 +8,6 @@ import Script from 'next/script'
 
 const prisma = new PrismaClient()
 
-// YOUR ADSTERRA DIRECT LINK
-const ADSTERRA_REDIRECT_URL = "https://auctionr.org/4/9f081db75ac611bf82be7beb33bf02d8" 
-
 export default async function Home() {
   const cookieStore = await cookies()
   const userRole = cookieStore.get('user_role')?.value
@@ -40,7 +37,7 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* 320x50 BANNER */}
+      {/* ADSTERRA 320x50 BANNER */}
       <div className="flex flex-col items-center justify-center border-y border-white/5 py-4">
         <span className="mb-2 text-[10px] uppercase tracking-widest text-zinc-600">Advertisement</span>
         <div className="flex justify-center overflow-hidden">
@@ -92,8 +89,7 @@ export default async function Home() {
                   </div>
                 )}
 
-                {/* CLICKING THE VIDEO OPENS THE ADSTERRA LINK */}
-                <a href={ADSTERRA_REDIRECT_URL} target="_blank" rel="noopener noreferrer" className="block">
+                <Link href={`/watch/${video.id}`} className="block">
                   <div className="relative aspect-video w-full overflow-hidden rounded-xl bg-gradient-to-br from-zinc-800 to-zinc-950 ring-1 ring-white/10 transition-all duration-300 group-hover:ring-red-500/50 group-hover:shadow-[0_0_40px_rgba(220,38,38,0.4)]">
                     {video.thumbnail && !video.thumbnail.includes('placehold.co') && (
                       <Image src={video.thumbnail} alt={video.name} fill sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw" className="object-cover transition duration-500 group-hover:scale-105 group-hover:opacity-80" />
@@ -108,7 +104,7 @@ export default async function Home() {
                     <h3 className="truncate text-sm sm:text-base font-bold text-zinc-200 transition-colors group-hover:text-white">{video.name}</h3>
                     <p className="mt-1 line-clamp-1 text-xs sm:text-sm text-zinc-500">{video.description}</p>
                   </div>
-                </a>
+                </Link>
               </div>
             ))}
           </div>

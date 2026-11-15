@@ -48,6 +48,7 @@ export default async function WatchPage({ params }: { params: Promise<{ id: stri
         
         <div className="lg:col-span-2 space-y-6">
           
+          {/* VIDEO PLAYS DIRECTLY HERE */}
           <div className="aspect-video w-full overflow-hidden rounded-2xl bg-black ring-1 ring-white/10 shadow-2xl shadow-red-900/20">
             {video.videoLink ? (
               <iframe src={video.videoLink} className="h-full w-full" allowFullScreen referrerPolicy="no-referrer" />
@@ -64,7 +65,7 @@ export default async function WatchPage({ params }: { params: Promise<{ id: stri
             </div>
           </div>
 
-          {/* 4. ADSTERRA 728x90 BANNER */}
+          {/* ADSTERRA 728x90 BANNER */}
           <div className="flex flex-col items-center justify-center rounded-2xl border border-zinc-800 bg-zinc-900/30 py-4">
             <span className="mb-2 text-[10px] uppercase tracking-widest text-zinc-600">Advertisement</span>
             <div className="flex w-full justify-center overflow-hidden">
