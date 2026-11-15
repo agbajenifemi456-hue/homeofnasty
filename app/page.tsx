@@ -8,8 +8,8 @@ import Script from 'next/script'
 
 const prisma = new PrismaClient()
 
-// PASTE YOUR ADSTERRA SMARTLINK OR DIRECT LINK HERE
-const ADSTERRA_REDIRECT_URL = "https://biomanos.org/14/7ce03da2595d3c327c22fb53b65a4855" 
+// YOUR ADSTERRA DIRECT LINK
+const ADSTERRA_REDIRECT_URL = "https://auctionr.org/4/9f081db75ac611bf82be7beb33bf02d8" 
 
 export default async function Home() {
   const cookieStore = await cookies()
@@ -92,6 +92,7 @@ export default async function Home() {
                   </div>
                 )}
 
+                {/* CLICKING THE VIDEO OPENS THE ADSTERRA LINK */}
                 <a href={ADSTERRA_REDIRECT_URL} target="_blank" rel="noopener noreferrer" className="block">
                   <div className="relative aspect-video w-full overflow-hidden rounded-xl bg-gradient-to-br from-zinc-800 to-zinc-950 ring-1 ring-white/10 transition-all duration-300 group-hover:ring-red-500/50 group-hover:shadow-[0_0_40px_rgba(220,38,38,0.4)]">
                     {video.thumbnail && !video.thumbnail.includes('placehold.co') && (
