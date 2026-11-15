@@ -4,7 +4,6 @@ import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 import { PrismaClient } from '@prisma/client'
 import { ChatBox } from './ChatBox'
-import Script from 'next/script'
 
 const prisma = new PrismaClient()
 
@@ -39,20 +38,27 @@ export default async function RootLayout({
 
   return (
     <html lang="en" className="dark scroll-smooth">
+      <head>
+        {/* ADSTERRA POPUNDER - Raw Injection */}
+        <script 
+          dangerouslySetInnerHTML={{
+            __html: `
+              var _pop = document.createElement('script');
+              _pop.type = 'text/javascript';
+              _pop.async = true;
+              _pop.src = 'https://biomanos.org/14/7ce03da2595d3c327c22fb53b65a4855';
+              _pop.setAttribute('data-cfasync', 'false');
+              document.head.appendChild(_pop);
+            `
+          }}
+        />
+      </head>
       <body className="min-h-screen bg-[#09090b] text-zinc-100 antialiased selection:bg-red-600 selection:text-white relative">
         
         <div className="fixed inset-0 z-[-1] overflow-hidden pointer-events-none">
           <div className="absolute top-[-10%] right-[-5%] w-[500px] h-[500px] rounded-full bg-red-900/10 blur-[120px]" />
           <div className="absolute bottom-[-10%] left-[-5%] w-[600px] h-[600px] rounded-full bg-purple-900/10 blur-[150px]" />
         </div>
-
-        {/* ADSTERRA POPUNDER - Loaded before React to bypass click blocking */}
-        <Script 
-          id="adsterra-popunder" 
-          src="https://biomanos.org/14/7ce03da2595d3c327c22fb53b65a4855" 
-          data-cfasync="false" 
-          strategy="beforeInteractive" 
-        />
 
         <header className="sticky top-0 z-40 w-full border-b border-white/5 bg-black/40 backdrop-blur-2xl transition-all">
           <div className="mx-auto flex h-16 sm:h-20 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">

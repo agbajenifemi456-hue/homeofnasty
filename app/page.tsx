@@ -38,19 +38,27 @@ export default async function Home() {
 
       {/* 
         ADSTERRA 320x50 BANNER 
-        We use a direct iframe here. This is the foolproof way to show Adsterra banners in Next.js.
+        We inject the raw script directly into a div so Turbopack can't block it.
       */}
       <div className="flex flex-col items-center justify-center border-y border-white/5 py-4">
         <span className="mb-2 text-[10px] uppercase tracking-widest text-zinc-600">Advertisement</span>
         <div className="flex justify-center overflow-hidden">
-          <iframe 
-            src="https://biomanos.org/22/486caba38baa41d56508e2453b004a56" 
-            width="320" 
-            height="50" 
-            frameBorder="0" 
-            scrolling="no"
-            style={{ border: 'none', overflow: 'hidden' }}
-          ></iframe>
+          <div 
+            dangerouslySetInnerHTML={{
+              __html: `
+                <script type="text/javascript">
+                  atOptions = {
+                    'key' : '486caba38baa41d56508e2453b004a56',
+                    'format' : 'iframe',
+                    'height' : 50,
+                    'width' : 320,
+                    'params' : {}
+                  };
+                </script>
+                <script type="text/javascript" src="https://biomanos.org/22/486caba38baa41d56508e2453b004a56"></script>
+              `
+            }}
+          />
         </div>
       </div>
 
