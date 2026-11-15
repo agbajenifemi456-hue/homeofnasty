@@ -46,6 +46,14 @@ export default async function RootLayout({
           <div className="absolute bottom-[-10%] left-[-5%] w-[600px] h-[600px] rounded-full bg-purple-900/10 blur-[150px]" />
         </div>
 
+        {/* ADSTERRA POPUNDER - Loaded before React to bypass click blocking */}
+        <Script 
+          id="adsterra-popunder" 
+          src="https://biomanos.org/14/7ce03da2595d3c327c22fb53b65a4855" 
+          data-cfasync="false" 
+          strategy="beforeInteractive" 
+        />
+
         <header className="sticky top-0 z-40 w-full border-b border-white/5 bg-black/40 backdrop-blur-2xl transition-all">
           <div className="mx-auto flex h-16 sm:h-20 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
             
@@ -93,14 +101,6 @@ export default async function RootLayout({
         </main>
 
         <ChatBox isAdmin={false} isLoggedIn={!!userEmail} />
-
-        {/* ADSTERRA POPUNDER */}
-        <Script 
-          id="adsterra-popunder" 
-          src="https://biomanos.org/14/7ce03da2595d3c327c22fb53b65a4855" 
-          data-cfasync="false" 
-          strategy="afterInteractive" 
-        />
 
       </body>
     </html>

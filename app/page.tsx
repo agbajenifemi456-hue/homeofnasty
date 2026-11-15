@@ -4,7 +4,6 @@ import Link from 'next/link'
 import { cookies } from 'next/headers'
 import { deleteVideo } from './deleteVideo'
 import { EditThumbnailButton } from './EditThumbnailButton'
-import Script from 'next/script'
 
 const prisma = new PrismaClient()
 
@@ -37,22 +36,21 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* ADSTERRA 320x50 BANNER */}
+      {/* 
+        ADSTERRA 320x50 BANNER 
+        We use a direct iframe here. This is the foolproof way to show Adsterra banners in Next.js.
+      */}
       <div className="flex flex-col items-center justify-center border-y border-white/5 py-4">
         <span className="mb-2 text-[10px] uppercase tracking-widest text-zinc-600">Advertisement</span>
         <div className="flex justify-center overflow-hidden">
-          <Script id="adsterra-banner-320" strategy="afterInteractive">
-            {`
-              atOptions = {
-                'key' : '486caba38baa41d56508e2453b004a56',
-                'format' : 'iframe',
-                'height' : 50,
-                'width' : 320,
-                'params' : {}
-              };
-            `}
-          </Script>
-          <Script id="adsterra-banner-320-src" src="https://biomanos.org/22/486caba38baa41d56508e2453b004a56" strategy="afterInteractive" />
+          <iframe 
+            src="https://biomanos.org/22/486caba38baa41d56508e2453b004a56" 
+            width="320" 
+            height="50" 
+            frameBorder="0" 
+            scrolling="no"
+            style={{ border: 'none', overflow: 'hidden' }}
+          ></iframe>
         </div>
       </div>
 
