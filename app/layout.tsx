@@ -94,21 +94,13 @@ export default async function RootLayout({
 
         <ChatBox isAdmin={false} isLoggedIn={!!userEmail} />
 
-        {/* 1. ADSTERRA POPUNDER */}
+        {/* ADSTERRA POPUNDER ONLY */}
         <Script 
           id="adsterra-popunder" 
           src="https://biomanos.org/14/7ce03da2595d3c327c22fb53b65a4855" 
           data-cfasync="false" 
           strategy="afterInteractive" 
         />
-
-        {/* 2. ADSTERRA SOCIAL BAR */}
-        <Script id="adsterra-social-bar" strategy="afterInteractive">
-          {`
-            (function(s){s.dataset.zone='10113794',s.src='https://biomanos.org/14/7ce03da2595d3c327c22fb53b65a4855'})
-            (document.querySelector('script[data-zone]')||document.head.appendChild(document.createElement('script')));
-          `}
-        </Script>
 
       </body>
     </html>
