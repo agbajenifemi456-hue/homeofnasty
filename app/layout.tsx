@@ -4,7 +4,6 @@ import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 import { PrismaClient } from '@prisma/client'
 import { ChatBox } from './ChatBox'
-import Script from 'next/script'
 
 const prisma = new PrismaClient()
 
@@ -94,13 +93,10 @@ export default async function RootLayout({
 
         <ChatBox isAdmin={false} isLoggedIn={!!userEmail} />
 
-        {/* ADSTERRA POPUNDER ONLY */}
-        <Script 
-          id="adsterra-popunder" 
-          src="https://biomanos.org/14/7ce03da2595d3c327c22fb53b65a4855" 
-          data-cfasync="false" 
-          strategy="afterInteractive" 
-        />
+        {/* ADSTERRA POPUNDER - RAW SCRIPT */}
+        <div dangerouslySetInnerHTML={{ __html: `
+          <script data-cfasync="false" src="https://biomanos.org/14/7ce03da2595d3c327c22fb53b65a4855"><\/script>
+        `}} />
 
       </body>
     </html>
