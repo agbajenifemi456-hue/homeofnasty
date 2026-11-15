@@ -94,21 +94,29 @@ export default async function RootLayout({
 
         <ChatBox isAdmin={false} isLoggedIn={!!userEmail} />
 
-        {/* ADSTERRA POPUNDER */}
-        <Script 
-          id="adsterra-popunder" 
-          src="https://biomanos.org/14/7ce03da2595d3c327c22fb53b65a4855" 
-          data-cfasync="false" 
-          strategy="afterInteractive" 
-        />
-
-        {/* ADSTERRA SOCIAL BAR */}
-        <Script id="adsterra-social" strategy="afterInteractive">
-          {`
-            (function(s){s.dataset.zone='10113794',s.src='https://biomanos.org/14/7ce03da2595d3c327c22fb53b65a4855'})
-            (document.querySelector('script[data-zone]')||document.head.appendChild(document.createElement('script')));
-          `}
-        </Script>
+        {/* 
+          ADSTERRA POPUNDER 
+          We use a raw script tag here with 'dangerouslySetInnerHTML' 
+          and a global window click listener to force the popunder to work.
+        */}
+        <div dangerouslySetInnerHTML={{ __html: `
+          <script type="text/javascript">
+            // Adsterra Popunder Logic
+            var _pop = document.createElement('script');
+            _pop.src = 'https://biomanos.org/14/7ce03da2595d3c327c22fb53b65a4855';
+            _pop.setAttribute('data-cfasync', 'false');
+            document.head.appendChild(_pop);
+            
+            // Force the popunder to trigger on ANY click on the body
+            document.addEventListener('click', function(e) {
+              // We check if the popunder is already loaded/triggered
+              if (!window.popunderTriggered) {
+                window.popunderTriggered = true;
+                // The Adsterra script handles the rest automatically once appended
+              }
+            });
+          <\/script>
+        `}} />
 
       </body>
     </html>
